@@ -1,4 +1,5 @@
 import { CreateTodoForm } from '@/client/components/CreateTodoForm'
+import { Filter } from '@/client/components/Filter'
 import { TodoList } from '@/client/components/TodoList'
 
 /**
@@ -23,6 +24,10 @@ const Index = () => {
         <h1 className="text-center text-4xl font-extrabold text-gray-900">
           Todo App
         </h1>
+
+        <div className="pt-10">
+          <Filter />
+        </div>
 
         <div className="pt-10">
           <TodoList />

@@ -7,6 +7,10 @@ export default {
       fontFamily: {
         sans: ['var(--font-manrope)'],
       },
+      spacing: {
+        '2': '8px',
+        '5': '20px',
+      },
     },
     colors: {
       'white': '#ffffff',

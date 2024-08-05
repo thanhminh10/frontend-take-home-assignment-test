@@ -90,4 +90,4 @@ to the repo via email to `binhdv@thenowproject.com.vn` and
   - [X] Finish Question 5
   - [X] Finish Question 6
   - [] Run `yarn lint` with no errors
-  - [] Run `yarn type-check` with no errors
+  - [X] Run `yarn type-check` with no errors

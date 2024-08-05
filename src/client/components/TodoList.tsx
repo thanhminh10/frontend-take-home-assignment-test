@@ -63,12 +63,9 @@ import { api } from '@/utils/client/api'
  *  - https://auto-animate.formkit.com
  */
 
-export const TodoList = () => {
+export const TodoList = ({ todos }) => {
   const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
 
-  const { data: todos = [] } = api.todo.getAll.useQuery({
-    statuses: ['completed', 'pending'],
-  })
   const apiContext = api.useContext()
 
   const { mutate: updateTodo } = api.todoStatus.update.useMutation({

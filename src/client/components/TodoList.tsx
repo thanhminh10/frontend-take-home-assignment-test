@@ -63,7 +63,17 @@ import { api } from '@/utils/client/api'
  *  - https://auto-animate.formkit.com
  */
 
-export const TodoList = ({ todos }) => {
+interface Todo {
+  id: number
+  body: string
+  status: 'pending' | 'completed'
+}
+
+interface TodoListProps {
+  todos: Todo[]
+}
+
+export const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   const [parent, enableAnimations] = useAutoAnimate()
 
   const apiContext = api.useContext()
@@ -82,7 +92,7 @@ export const TodoList = ({ todos }) => {
     },
   })
 
-  const toggleStatus = (id, status) => {
+  const toggleStatus = (id: number, status: 'pending' | 'completed') => {
     const newStatus = status === 'completed' ? 'pending' : 'completed'
     updateTodo({
       todoId: Number(id),
@@ -90,13 +100,16 @@ export const TodoList = ({ todos }) => {
     })
   }
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     deleteTodo({
       id: Number(id),
     })
   }
 
-  const handleIconClick = (event, id) => {
+  const handleIconClick = (
+    event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+    id: number
+  ) => {
     event.stopPropagation() // Prevents the click event from bubbling up to the parent
     handleDelete(id)
   }
@@ -104,12 +117,7 @@ export const TodoList = ({ todos }) => {
   return (
     <ul className="grid grid-cols-1 gap-y-3" ref={parent}>
       {todos.map((todo) => (
-        <li
-          key={todo.id}
-          id={todo.id}
-          status={todo.status}
-          onClick={() => toggleStatus(todo.id, todo.status)}
-        >
+        <li key={todo.id} onClick={() => toggleStatus(todo.id, todo.status)}>
           <div
             className={`flex w-full justify-between rounded-12 border border-gray-200 px-4 py-3 shadow-sm  ${
               todo.status === 'completed'

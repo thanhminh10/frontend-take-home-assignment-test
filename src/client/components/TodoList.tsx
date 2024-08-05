@@ -75,6 +75,12 @@ export const TodoList = () => {
     },
   })
 
+  const { mutate: deleteTodo } = api.todo.delete.useMutation({
+    onSuccess: () => {
+      apiContext.todo.getAll.refetch()
+    },
+  })
+
   const toggleStatus = (id, status) => {
     const newStatus = status === 'completed' ? 'pending' : 'completed'
     updateTodo({
@@ -83,10 +89,26 @@ export const TodoList = () => {
     })
   }
 
+  const handleDelete = (id) => {
+    deleteTodo({
+      id: Number(id),
+    })
+  }
+
+  const handleIconClick = (event, id) => {
+    event.stopPropagation() // Prevents the click event from bubbling up to the parent
+    handleDelete(id)
+  }
+
   return (
     <ul className="grid grid-cols-1 gap-y-3">
       {todos.map((todo) => (
-        <li key={todo.id}>
+        <li
+          key={todo.id}
+          id={todo.id}
+          status={todo.status}
+          onClick={() => toggleStatus(todo.id, todo.status)}
+        >
           <div
             className={`flex w-full justify-between rounded-12 border border-gray-200 px-4 py-3 shadow-sm  ${
               todo.status === 'completed'
@@ -94,12 +116,7 @@ export const TodoList = () => {
                 : 'text-black'
             }`}
           >
-            <div
-              className="flex items-center"
-              id={todo.id}
-              status={todo.status}
-              onClick={() => toggleStatus(todo.id, todo.status)}
-            >
+            <div className="flex items-center">
               <Checkbox.Root
                 id={String(todo.id)}
                 className="flex h-6 w-6 items-center justify-center rounded-6 border border-gray-300 focus:border-gray-700 focus:outline-none data-[state=checked]:border-gray-700 data-[state=checked]:bg-gray-700"
@@ -121,7 +138,10 @@ export const TodoList = () => {
                 {todo.body}
               </label>
             </div>
-            <XMarkIcon className=" flex h-6 w-6 cursor-pointer items-end justify-end rounded-6 focus:border-gray-700 focus:outline-none data-[state=checked]:border-gray-700 data-[state=checked]:bg-gray-700" />
+            <XMarkIcon
+              onClick={(event) => handleIconClick(event, todo.id)}
+              className=" flex h-6 w-6 cursor-pointer items-end justify-end rounded-6 focus:border-gray-700 focus:outline-none data-[state=checked]:border-gray-700 data-[state=checked]:bg-gray-700"
+            />
           </div>
         </li>
       ))}

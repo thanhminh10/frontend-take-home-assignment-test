@@ -84,7 +84,11 @@ export const TodoList = () => {
               </Checkbox.Root>
 
               <label
-                className="block pl-3 font-medium"
+                className={`block pl-3 font-medium ${
+                  todo.status === 'completed'
+                    ? 'text-gray-500 line-through'
+                    : 'text-black'
+                }`}
                 htmlFor={String(todo.id)}
               >
                 {todo.body}

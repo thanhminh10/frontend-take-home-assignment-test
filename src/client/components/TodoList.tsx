@@ -64,7 +64,7 @@ import { api } from '@/utils/client/api'
  */
 
 export const TodoList = ({ todos }) => {
-  const [parent, enableAnimations] = useAutoAnimate(/* optional config */)
+  const [parent, enableAnimations] = useAutoAnimate()
 
   const apiContext = api.useContext()
 
